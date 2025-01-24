@@ -43,11 +43,13 @@
             display: flex;
             justify-content: space-between;
         }
-        .input-group input[type="text"] {
+        .input-group textarea {
             width: 80%;
             padding: 10px;
             border: 1px solid #ddd;
             border-radius: 4px;
+            resize: none;
+            height: 60px;
         }
         .input-group button {
             width: 18%;
@@ -62,8 +64,6 @@
             background-color: #0056b3;
         }
     </style>
-    <!-- 引入 marked.js 库 -->
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
     <div class="container">
@@ -72,7 +72,7 @@
             <!-- 信息将在这里显示 -->
         </div>
         <div class="input-group">
-            <input type="text" id="userInput" placeholder="请输入消息...">
+            <textarea id="userInput" placeholder="请输入消息..."></textarea>
             <button onclick="sendMessage()">Send 发送</button>
         </div>
     </div>
@@ -144,13 +144,25 @@
             const botMessage = await chat(userInput);
             const botMessageElement = document.createElement('div');
             botMessageElement.className = 'message bot';
-            botMessageElement.innerHTML = marked(botMessage); // 使用 marked 解析 Markdown 文本
+            botMessageElement.textContent = botMessage;
             chatBox.appendChild(botMessageElement);
 
             // 滚动聊天框到底部
             chatBox.scrollTop = chatBox.scrollHeight;
             document.getElementById('userInput').value = '';
         }
+
+        // 为输入框添加键盘事件监听
+        const userInputElement = document.getElementById('userInput');
+        userInputElement.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                if (event.ctrlKey) {
+                    // Ctrl + Enter 发送消息
+                    event.preventDefault(); // 阻止默认的换行行为
+                    sendMessage();
+                }
+            }
+        });
     </script>
 </body>
 </html>
