@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat with Xiangquan's Bot/和湘权的机器人聊天</title>
+    <title>和湘权的机器人聊天</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -65,13 +65,13 @@
 </head>
 <body>
     <div class="container">
-        <h1>Chat with Kimi</h1>
+        <h1>Chat with Xiangquan's Bot 和湘权的机器人聊天</h1>
         <div class="chat-box" id="chatBox">
             <!-- Messages will be displayed here -->
         </div>
         <div class="input-group">
-            <input type="text" id="userInput" placeholder="Type your message here...">
-            <button onclick="sendMessage()">Send/发送</button>
+            <input type="text" id="userInput" placeholder="请输入消息...">
+            <button onclick="sendMessage()">Send 发送</button>
         </div>
     </div>
 
@@ -91,7 +91,7 @@
             });
 
             try {
-                const response = await fetch("https://api.moonshot.cn/v1", {
+                const response = await fetch("https://api.moonshot.cn/v1/chat/completions", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -124,7 +124,7 @@
         async function sendMessage() {
             const userInput = document.getElementById('userInput').value;
             if (userInput.trim() === '') {
-                alert('Please enter a message.');
+                alert('请输入消息。');
                 return;
             }
 
