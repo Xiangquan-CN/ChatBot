@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat with Xiangquan's Bot (V2.7.2)</title>
+    <title>Chat with Xiangquan's Bot (V2.7.5)</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -119,7 +119,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>Chat with Xiangquan's Bot (V2.7.2)</h1>
+        <h1>Chat with Xiangquan's Bot (V2.7.5)</h1>
         <div class="chat-box" id="chatBox">
             <!-- 聊天记录将在这里显示 -->
         </div>
@@ -191,8 +191,6 @@
 
             const message = document.createElement('div');
             message.className = `message ${role}`;
-            message.textContent = text;
-
             const copyButton = document.createElement('button');
             copyButton.className = 'copy-btn';
             copyButton.textContent = 'Copy';
@@ -201,7 +199,32 @@
             message.appendChild(copyButton);
             chatBox.appendChild(message);
 
-            chatBox.scrollTop = chatBox.scrollHeight; // 滚动到最新
+            chatBox.scrollTop = chatBox.scrollHeight; // 滚动到最新位置
+
+            if (role === 'bot') {
+                typeTextEffect(message, text); // 调用打字特效
+            } else {
+                message.textContent = text;
+                message.appendChild(copyButton); // 用户消息无需打字特效
+            }
+        }
+
+        // 打字特效函数
+        function typeTextEffect(element, text) {
+            let index = 0;
+            const textLength = text.length;
+
+            // 根据文本长度决定动画时间（2-5秒之间）
+            const duration = Math.min(5000, Math.max(2000, textLength * 100));
+            const interval = duration / textLength;
+
+            const typingInterval = setInterval(() => {
+                element.textContent = text.slice(0, index + 1); // 显示到当前位置的文本
+                index++;
+                if (index >= textLength) {
+                    clearInterval(typingInterval); // 完成后清除计时器
+                }
+            }, interval);
         }
 
         // 发送消息
