@@ -6,39 +6,54 @@
     <title>湘权的聊天机器人</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #e9ecef;
             margin: 0;
             padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
         .container {
             width: 100%;
-            max-width: 600px;
-            margin: 0 auto;
+            max-width: 640px;
+            margin: 20px;
             padding: 20px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+        }
+        h1 {
+            text-align: center;
+            color: #007bff;
         }
         .chat-box {
             height: 400px;
             overflow-y: scroll;
-            border: 1px solid #ddd;
+            border: 1px solid #dfdfdf;
             border-radius: 8px;
             margin-bottom: 10px;
             padding: 10px;
+            background-color: #f7f7f7;
         }
         .chat-box .message {
             margin-bottom: 10px;
             white-space: pre-wrap;
+            padding: 8px;
+            border-radius: 6px;
+            max-width: 80%;
+            display: inline-block;
         }
         .chat-box .message.user {
+            background-color: #d1ecf1;
+            color: #0c5460;
             text-align: right;
-            color: #333;
+            margin-left: auto;
         }
         .chat-box .message.bot {
-            text-align: left;
-            color: #007bff;
+            background-color: #cce5ff;
+            color: #004085;
         }
         .input-group {
             display: flex;
@@ -47,10 +62,12 @@
         .input-group textarea {
             width: 80%;
             padding: 10px;
-            border: 1px solid #ddd;
+            border: 1px solid #ccc;
             border-radius: 4px;
             resize: none;
             height: 60px;
+            box-sizing: border-box;
+            font-size: 14px;
         }
         .input-group button {
             width: 18%;
@@ -60,6 +77,8 @@
             border: none;
             border-radius: 4px;
             cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 14px;
         }
         .input-group button:hover {
             background-color: #0056b3;
@@ -125,7 +144,7 @@
             }
         }
 
-        // 发送信息函数，处理用户输入与展示机器人的回复
+        // 发送信息函数，处理用户输入与展示机器人回复
         async function sendMessage() {
             const userInput = document.getElementById('userInput').value;
             if (userInput.trim() === '') {
