@@ -43,7 +43,8 @@
             padding: 8px;
             border-radius: 6px;
             max-width: 80%;
-            display: inline-block;
+            display: block;
+            clear: both;
         }
         .chat-box .message.user {
             background-color: #d1ecf1;
@@ -54,6 +55,8 @@
         .chat-box .message.bot {
             background-color: #cce5ff;
             color: #004085;
+            text-align: left;
+            margin-right: auto;
         }
         .input-group {
             display: flex;
@@ -160,13 +163,16 @@
             userMessage.textContent = userInput;
             chatBox.appendChild(userMessage);
 
-            // 获取并逐字符显示机器人消息
+            // 获取并逐字显示机器人消息
             const botMessage = await chat(userInput);
             const botMessageElement = document.createElement('div');
             botMessageElement.className = 'message bot';
             chatBox.appendChild(botMessageElement);
 
-            typeWriter(botMessage, botMessageElement, 0);
+            const typeSpeed = Math.min(5000, Math.max(2000, botMessage.length * 50));
+            const delay = typeSpeed / botMessage.length;
+
+            typeWriter(botMessage, botMessageElement, 0, delay);
 
             // 滚动聊天框到底部
             chatBox.scrollTop = chatBox.scrollHeight;
@@ -174,10 +180,10 @@
         }
 
         // 逐字显示文字
-        function typeWriter(text, element, index) {
+        function typeWriter(text, element, index, delay) {
             if (index < text.length) {
                 element.textContent += text.charAt(index);
-                setTimeout(() => typeWriter(text, element, index + 1), 50);
+                setTimeout(() => typeWriter(text, element, index + 1, delay), delay);
             }
         }
 
