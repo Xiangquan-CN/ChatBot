@@ -69,6 +69,12 @@
     </style>
     <!-- 引入 marked.js 库 -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script>
+        // 配置 marked 以增强安全性
+        marked.setOptions({
+            breaks: true, // 使用换行符进行换行
+        });
+    </script>
 </head>
 <body>
     <div class="container">
