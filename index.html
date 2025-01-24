@@ -67,7 +67,7 @@
     <div class="container">
         <h1>Chat with Xiangquan's Bot</h1>
         <div class="chat-box" id="chatBox">
-            <!-- Messages will be displayed here -->
+            <!-- 信息将在这里显示 -->
         </div>
         <div class="input-group">
             <input type="text" id="userInput" placeholder="请输入消息...">
@@ -76,7 +76,7 @@
     </div>
 
     <script>
-        // Initialize the chat history with a system message
+        // 初始化聊天历史记录，并包含系统消息
         const history = [
             {
                 role: "system",
@@ -84,6 +84,7 @@
             }
         ];
 
+        // 聊天功能，发送用户输入的内容并获取机器人的回复
         async function chat(prompt) {
             history.push({
                 role: "user",
@@ -104,7 +105,7 @@
                 });
 
                 if (!response.ok) {
-                    throw new Error(`API request failed with status: ${response.status}`);
+                    throw new Error(`API 请求失败，状态码: ${response.status}`);
                 }
 
                 const data = await response.json();
@@ -117,10 +118,11 @@
                 return botMessage;
             } catch (error) {
                 console.error("Error:", error);
-                return "Failed to get a response from the server. Please check the API link or try again later.";
+                return "获取服务器响应失败。请检查 API 链接或稍后重试。";
             }
         }
 
+        // 发送信息函数，处理用户输入与展示机器人回复
         async function sendMessage() {
             const userInput = document.getElementById('userInput').value;
             if (userInput.trim() === '') {
@@ -129,17 +131,21 @@
             }
 
             const chatBox = document.getElementById('chatBox');
+
+            // 显示用户消息
             const userMessage = document.createElement('div');
             userMessage.className = 'message user';
             userMessage.textContent = userInput;
             chatBox.appendChild(userMessage);
 
+            // 获取并显示机器人消息
             const botMessage = await chat(userInput);
             const botMessageElement = document.createElement('div');
             botMessageElement.className = 'message bot';
             botMessageElement.textContent = botMessage;
             chatBox.appendChild(botMessageElement);
 
+            // 滚动聊天框到底部
             chatBox.scrollTop = chatBox.scrollHeight;
             document.getElementById('userInput').value = '';
         }
