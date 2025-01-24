@@ -105,13 +105,12 @@
         const history = [
             {
                 role: "system",
-                content: "你是湘权开发的聊天机器人，你叫“Nameless”。你更擅长中文和英文的对话。你会为用户提供有帮助、准确的回答。在消息中禁止使用Markdown格式。"
+                content: "你是湘权开发的聊天机器人，你叫“Nameless”。你更擅长中文和英文的对话。你会为用户提供有帮助、准确的回答。"
             }
         ];
 
         // 聊天功能，发送用户输入的内容并获取机器人的回复
         async function chat(prompt, retryCount = 0) {
-
             history.push({
                 role: "user",
                 content: prompt
@@ -145,11 +144,11 @@
             } catch (error) {
                 console.error("Error:", error);
 
-                if (retryCount < 3) { // 最多重试 3 次
-                    return await chat(prompt, retryCount + 1);
-                } else {
-                    return `获取服务器响应失败。请检查 API 链接或稍后重试。重试次数: ${retryCount}`;
-                }
+                // 输出当前重试次数
+                console.log(`重试次数: ${retryCount + 1}`);
+
+                // 继续重试，直到成功
+                return await chat(prompt, retryCount + 1);
             }
         }
 
