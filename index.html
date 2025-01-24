@@ -102,7 +102,7 @@
                         "Authorization": "Bearer sk-76JCgAPhzF7E1wmrzCaJGwoZLGfXbYX22shlIbS0pMsFFXkK"
                     },
                     body: JSON.stringify({
-                        model: "moonshot-v1-8k",
+                        model: "moonshot-v1-auto",
                         messages: history
                     })
                 });
@@ -121,7 +121,7 @@
                 return botMessage;
             } catch (error) {
                 console.error("Error:", error);
-                return "Failed to get a response from the server. Please check the API link or try again later.";
+                return "无法从服务器获取响应。请检查 API 链接或稍后重试。";
             }
         }
 
