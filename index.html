@@ -104,7 +104,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>Chat with Xiangquan's Bot (V2.3)</h1>
+        <h1>Chat with Xiangquan's Bot (V2.5)</h1>
         <div class="chat-box" id="chatBox">
             <!-- 信息将在这里显示 -->
         </div>
@@ -122,6 +122,7 @@
             }
         ];
 
+        // 获取 API 回复的逻辑
         async function chat(prompt) {
             history.push({
                 role: "user",
@@ -159,6 +160,22 @@
             }
         }
 
+        // 添加打字特效
+        function typeWriterEffect(text, container, speed) {
+            let index = 0;
+
+            function typeChar() {
+                if (index < text.length) {
+                    container.textContent += text.charAt(index);
+                    index++;
+                    setTimeout(typeChar, speed);
+                }
+            }
+
+            typeChar();
+        }
+
+        // 发送消息函数
         async function sendMessage() {
             const userInput = document.getElementById('userInput');
             const userMessageText = userInput.value.trim();
@@ -179,19 +196,25 @@
             userMessage.textContent = userMessageText;
             chatBox.appendChild(userMessage);
 
-            // 获取机器人回复
-            const botReply = await chat(userMessageText);
-
-            // 显示机器人的回复
+            // 增加机器人回复框容器
             const botMessage = document.createElement('div');
             botMessage.className = 'message bot';
-            botMessage.textContent = botReply;
             chatBox.appendChild(botMessage);
 
             // 滚动到聊天框底部
             chatBox.scrollTop = chatBox.scrollHeight;
+
+            // 获取机器人回复
+            const botReply = await chat(userMessageText);
+
+            // 计算打字速度，确保在 2-5 秒内显示完毕
+            const typingSpeed = Math.min(5000, Math.max(2000, botReply.length * 50)) / botReply.length;
+
+            // 使用打字机特效显示机器人回复
+            typeWriterEffect(botReply, botMessage, typingSpeed);
         }
 
+        // 监听 Enter 键输入
         document.getElementById('userInput').addEventListener('keydown', function(event) {
             if (event.key === 'Enter' && !event.ctrlKey) {
                 event.preventDefault(); // 阻止默认换行
