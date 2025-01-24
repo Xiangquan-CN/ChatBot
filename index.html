@@ -10,6 +10,10 @@
             background-color: #f4f4f4;
             margin: 0;
             padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
         .container {
             width: 100%;
@@ -21,8 +25,8 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
         .chat-box {
-            height: 400px;
-            overflow-y: scroll;
+            height: 70vh; /* 使用视口高度 */
+            overflow-y: auto;
             border: 1px solid #ddd;
             border-radius: 8px;
             margin-bottom: 10px;
@@ -44,13 +48,13 @@
             justify-content: space-between;
         }
         .input-group input[type="text"] {
-            width: 80%;
+            width: calc(100% - 100px); /* 自适应宽度 */
             padding: 10px;
             border: 1px solid #ddd;
             border-radius: 4px;
         }
         .input-group button {
-            width: 18%;
+            width: 90px; /* 固定宽度，也可以根据需要调整为百分比 */
             padding: 10px;
             background-color: #007bff;
             color: #fff;
