@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat with Kimi</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .chat-box {
+            height: 400px;
+            overflow-y: scroll;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            padding: 10px;
+        }
+        .chat-box .message {
+            margin-bottom: 10px;
+        }
+        .chat-box .message.user {
+            text-align: right;
+            color: #333;
+        }
+        .chat-box .message.bot {
+            text-align: left;
+            color: #007bff;
+        }
+        .input-group {
+            display: flex;
+            justify-content: space-between;
+        }
+        .input-group input[type="text"] {
+            width: 80%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .input-group button {
+            width: 18%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .input-group button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Chat with Kimi</h1>
+        <div class="chat-box" id="chatBox">
+            <!-- Messages will be displayed here -->
+        </div>
+        <div class="input-group">
+            <input type="text" id="userInput" placeholder="Type your message here...">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <script>
+        async function sendMessage() {
+            const userInput = document.getElementById('userInput').value;
+            if (userInput.trim() === '') {
+                alert('Please enter a message.');
+                return;
+            }
+
+            const chatBox = document.getElementById('chatBox');
+            const userMessage = document.createElement('div');
+            userMessage.className = 'message user';
+            userMessage.textContent = userInput;
+            chatBox.appendChild(userMessage);
+
+            // API details
+            const apiKey = 'sk-76JCgAPhzF7E1wmrzCaJGwoZLGfXbYX22shlIbS0pMsFFXkK';
+            const apiUrl = 'https://api.moonshot.cn';
+
+            // Prepare the request payload
+            const payload = {
+                message: userInput
+            };
+
+            // Make the API call
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${apiKey}`
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`API request failed with status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                const botMessage = document.createElement('div');
+                botMessage.className = 'message bot';
+                botMessage.textContent = data.response || 'No response from the API.';
+                chatBox.appendChild(botMessage);
+            } catch (error) {
+                console.error('Error:', error);
+                const botMessage = document.createElement('div');
+                botMessage.className = 'message bot';
+                botMessage.textContent = 'Failed to get a response from the server.';
+                chatBox.appendChild(botMessage);
+            }
+
+            chatBox.scrollTop = chatBox.scrollHeight;
+            document.getElementById('userInput').value = '';
+        }
+    </script>
+</body>
+</html>
