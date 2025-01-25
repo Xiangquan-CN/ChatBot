@@ -134,7 +134,7 @@
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
-                            "Authorization": "Bearer sk-76JCgAPhzF7E1wmrzCaJGwoZLGfXbYX22shlIbS0pMsFFXkK" // 请替换为您的实际 API Key
+                            "Authorization": "Bearer sk-76JCgAPhzF7E1wmrzCaJGwoZLGfXbYX22shlIbS0pMsFFXkK"// 盗用API KEY死马！！！
                         },
                         body: JSON.stringify({
                             model: "moonshot-v1-auto",
@@ -206,7 +206,7 @@
                 element.textContent = text.slice(0, index + 1); // 显示到当前位置的文本
                 index++;
                 if (index >= textLength) {
-                    clearInterval(typingInterval); // 完成后清除计时器
+                    clearInterval(typingInterval);
                 }
             }, interval);
         }
@@ -231,7 +231,7 @@
         // 监听 Enter 键
         document.getElementById('userInput').addEventListener('keydown', function(event) {
             if (event.key === 'Enter' && !event.ctrlKey) {
-                event.preventDefault(); // 禁止换行
+                event.preventDefault();
                 sendMessage();
             }
         });
